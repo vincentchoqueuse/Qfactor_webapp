@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Fourier Audio Synthesis</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src='http://code.highcharts.com/highcharts.js'></script>
+        <script>  
+          $(function () {
+            
+            m_step=0.01;
+            m_length=Math.floor(0.7/m_step);
+            
+            //Compute the data
+            var mySeries = [];
+            
+            for (var i = 1; i <= m_length; i++) {
+            m_temp=i*m_step;
+            s_temp=20.*Math.log10(1.0/((2*m_temp*Math.sqrt(1-m_temp*m_temp))))
+            mySeries.push([s_temp]);
+            }
+            
+            $('#main_figure').highcharts({
+            title: {
+            text: '',
+            },
+            credits: {
+            enabled: false
+            },
+            xAxis: {
+            title: {
+            text: 'dampin factor: m'
+            }
+            },
+            yAxis: {
+            min:0,
+            max:40,
+            title: {
+            text: 'Q factor (dB)'
+            }
+            
+            },
+            tooltip: {
+            crosshairs: [true,true],
+            formatter: function() {
+            return '<b>m</b>:' + this.x.toFixed(2) + '<br><b>D</b>:' + this.y.toFixed(3) +' %';
+            }
+            
+            },
+            plotOptions: {
+                series: {
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+            series: [{
+                     data: mySeries,
+                     pointInterval: m_step,
+                     pointStart: m_step
+                     }]
+                     });
+                     });
+                     
+                     
+        </script>
+    </head>
+    
+    <body >
+        <div class="container">
+            <a href="https://github.com/vincentchoqueuse"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+            
+            <h1 class="page-header">Second Order Systems: Q Factor</h1>
+            <div id="main_figure" style="min-width: 310px; height: 600px; margin: 0 auto"></div>
+            <footer style="text-align:center;padding-top:20px;">
+                <p>Developed by: <a href="http://www.v-choqueuse.com">
+                    Vincent Choqueuse</a></p>
+            </footer>
+        </div>
+        
+    </body>
+</html>
